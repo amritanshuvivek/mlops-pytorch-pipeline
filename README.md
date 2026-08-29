@@ -442,8 +442,7 @@ Conceptual workflow for managing this project in a team structure:
 
 ---
 
-## 10. Limitations & AI Disclosures
+## 10. Limitations
 
 1. **Slow Academic Dataset Mirror:** The Toronto server hosting CIFAR-10 data was downloading at ~25 kB/s, which would take hours to download. We bypassed this for fast testing using torchvision's `FakeData` class as a smoke test mode.
 2. **Kubernetes Metrics Server:** Metrics server was not enabled by default in our local `kind` cluster, so HPA target values shown in `kubectl get hpa` display as `<unknown>`, but the manifests are valid.
-3. **AI Assistant Usage:** Google Deepmind's Antigravity assistant was used to plan the implementation, write scripts, debug Docker image folder permissions, setup local cluster, deploy manifests, and collect verification logs.
