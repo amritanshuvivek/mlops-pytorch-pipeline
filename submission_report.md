@@ -206,3 +206,4 @@ content-type: application/json
 
 {"predicted_class":8,"predicted_label":"ship","probabilities":[0.081162,0.147572,0.09165,0.086626,0.111534,0.078215,0.101528,0.055336,0.163632,0.082745]}
 ```
+<!-- End of Report -->
