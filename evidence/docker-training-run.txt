@@ -1,0 +1,8 @@
+{"event": "training_init", "device": "mps", "config": {"model": {"architecture": "resnet18", "num_classes": 10}, "training": {"epochs": 2, "batch_size": 64, "learning_rate": 0.001, "early_stopping_patience": 3}, "data": {"dataset": "cifar10", "data_dir": "/app/data"}, "output": {"checkpoint_dir": "/app/checkpoints", "model_name": "classifier_v1.pt"}}}
+{"event": "smoke_test_mode", "message": "Using mock data for fast verification"}
+{"event": "training_start", "total_epochs": 2}
+{"epoch": 1, "train_loss": 2.438, "train_accuracy": 0.0898, "val_loss": 4.9582, "val_accuracy": 0.1562}
+{"event": "checkpoint_saved", "epoch": 1, "val_loss": 4.9582, "val_accuracy": 0.1562, "path": "checkpoints/classifier_v1.pt"}
+{"epoch": 2, "train_loss": 0.3502, "train_accuracy": 0.9961, "val_loss": 1.8918, "val_accuracy": 0.2969}
+{"event": "checkpoint_saved", "epoch": 2, "val_loss": 1.8918, "val_accuracy": 0.2969, "path": "checkpoints/classifier_v1.pt"}
+{"event": "training_complete", "best_val_loss": 1.8918, "best_val_accuracy": 0.2969, "checkpoint_path": "checkpoints/classifier_v1.pt"}

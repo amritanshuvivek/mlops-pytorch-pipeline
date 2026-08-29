@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mlops-training-job
+  namespace: ml-training
+spec:
+  template:
+    metadata:
+      labels:
+        job: mlops-training
+    spec:
+      containers:
+        - name: training-container
+          image: mlops-train:v2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SMOKE_TEST
+              value: "true"
+          resources:
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+            limits:
+              cpu: "2"
+              memory: "4Gi"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/configs
+            - name: data-volume
+              mountPath: /app/data
+            - name: checkpoints-volume
+              mountPath: /app/checkpoints
+      restartPolicy: OnFailure
+      volumes:
+        - name: config-volume
+          configMap:
+            name: training-config
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: data-pvc
+        - name: checkpoints-volume
+          persistentVolumeClaim:
+            claimName: checkpoints-pvc
+  backoffLimit: 2

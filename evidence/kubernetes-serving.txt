@@ -1,0 +1,11 @@
+$ kubectl get deployment -n ml-training
+NAME            READY   UP-TO-DATE   AVAILABLE   AGE
+model-serving   2/2     2            2           98s
+
+$ kubectl get svc -n ml-training
+NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)   AGE
+model-serving   ClusterIP   10.96.85.92   <none>        80/TCP    4m26s
+
+$ kubectl get hpa -n ml-training
+NAME                REFERENCE                  TARGETS              MINPODS   MAXPODS   REPLICAS   AGE
+model-serving-hpa   Deployment/model-serving   cpu: <unknown>/80%   2         5         2          4m26s

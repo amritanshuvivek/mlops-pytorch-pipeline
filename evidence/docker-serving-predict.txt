@@ -1,0 +1,8 @@
+$ curl -i -X POST http://localhost:8080/predict -F "image=@test_image.png"
+HTTP/1.1 200 OK
+date: Sat, 29 Aug 2026 03:28:15 GMT
+server: uvicorn
+content-length: 152
+content-type: application/json
+
+{"predicted_class":3,"predicted_label":"cat","probabilities":[0.023033,0.08905,0.213712,0.238022,0.087249,0.038015,0.153324,0.008948,0.042537,0.106109]}

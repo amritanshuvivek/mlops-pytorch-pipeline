@@ -1,0 +1,18 @@
+$ kubectl get job -n ml-training
+NAME                 STATUS     COMPLETIONS   DURATION   AGE
+mlops-training-job   Complete   1/1           15s        70s
+
+$ kubectl get pods -n ml-training -l job-name=mlops-training-job
+NAME                       READY   STATUS      RESTARTS   AGE
+mlops-training-job-mkdzw   0/1     Completed   0          70s
+
+$ kubectl logs -n ml-training -l job-name=mlops-training-job
+{"event": "training_init", "device": "cpu", "config": {"model": {"architecture": "resnet18", "num_classes": 10}, "training": {"epochs": 2, "batch_size": 64, "learning_rate": 0.001, "early_stopping_patience": 3}, "data": {"dataset": "cifar10", "data_dir": "/app/data"}, "output": {"checkpoint_dir": "/app/checkpoints", "model_name": "classifier_v1.pt"}}}
+{"event": "smoke_test_mode", "message": "Using mock data for fast verification"}
+{"event": "training_start", "total_epochs": 2}
+/pytorch/third_party/ideep/mkl-dnn/src/cpu/aarch64/xbyak_aarch64/src/util_impl_linux.h, 451: Can't read MIDR_EL1 sysfs entry
+{"epoch": 1, "train_loss": 2.4563, "train_accuracy": 0.0977, "val_loss": 3.4938, "val_accuracy": 0.1406}
+{"event": "checkpoint_saved", "epoch": 1, "val_loss": 3.4938, "val_accuracy": 0.1406, "path": "/app/checkpoints/classifier_v1.pt"}
+{"epoch": 2, "train_loss": 0.3548, "train_accuracy": 0.9922, "val_loss": 2.0528, "val_accuracy": 0.2812}
+{"event": "checkpoint_saved", "epoch": 2, "val_loss": 2.0528, "val_accuracy": 0.2812, "path": "/app/checkpoints/classifier_v1.pt"}
+{"event": "training_complete", "best_val_loss": 2.0528, "best_val_accuracy": 0.2812, "checkpoint_path": "/app/checkpoints/classifier_v1.pt"}

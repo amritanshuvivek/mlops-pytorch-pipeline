@@ -1,0 +1,33 @@
+name: MLOps PyTorch Pipeline CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Pinned Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Install training dependencies first
+        pip install -r requirements/train.txt
+        # Install pytest for running tests
+        pip install pytest
+
+    - name: Run Model Unit Tests
+      run: |
+        python -m pytest

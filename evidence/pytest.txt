@@ -1,0 +1,9 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.10.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/amritanshuvivek/Documents/AI_Projects/69_docker_kubernetes/mlops-pytorch-pipeline
+plugins: anyio-4.9.0, langsmith-0.4.10
+collected 3 items
+
+tests/test_model.py ...                                                  [100%]
+
+============================== 3 passed in 1.86s ===============================

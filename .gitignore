@@ -1,0 +1,16 @@
+# PyTorch and general Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+
+# Data and checkpoints (DO NOT COMMIT)
+data/
+checkpoints/
+
+# OS specific
+.DS_Store
+Thumbs.db

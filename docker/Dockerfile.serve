@@ -1,0 +1,43 @@
+# Multi-stage build for inference serving image
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies to user directory
+COPY requirements/serve.txt .
+RUN pip install --no-cache-dir --prefix=/install -r serve.txt
+
+# Final stage
+FROM python:3.11-slim AS runner
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy source and configurations
+COPY src/ src/
+COPY configs/ configs/
+
+# Create and use a non-root user for security
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV CONFIG_PATH=/app/configs/training_config.yaml
+
+EXPOSE 8080
+
+# Health check using python's built-in urllib to avoid curl dependency in slim image
+HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')" || exit 1
+
+# Start FastAPI server
+CMD ["uvicorn", "src.serve:app", "--host", "0.0.0.0", "--port", "8080"]

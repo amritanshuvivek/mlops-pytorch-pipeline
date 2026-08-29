@@ -1,0 +1,31 @@
+# Multi-stage build for training image
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install python dependencies to user directory for easy copying
+COPY requirements/train.txt .
+RUN pip install --no-cache-dir --prefix=/install -r train.txt
+
+# Final stage
+FROM python:3.11-slim AS runner
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy source and configurations
+COPY src/ src/
+COPY configs/ configs/
+
+# Set Python behavior
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+CMD ["python", "src/train.py"]
