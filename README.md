@@ -31,7 +31,7 @@ flowchart TD
     end
 
     %% Orchestration Phase
-    subgraph Kubernetes Deployment (ml-training namespace)
+    subgraph "Kubernetes Deployment (ml-training namespace)"
         K8sJob[Kubernetes Job] -->|Runs| DockerTrainImage
         K8sJob -->|Mounts| DataPVC[(data-pvc)]
         K8sJob -->|Writes best weights| CheckpointPVC[(checkpoints-pvc)]
